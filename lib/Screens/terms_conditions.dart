@@ -16,8 +16,9 @@ class TermsConditions extends StatelessWidget {
               'Welcome To WhatsApp',
               style: TextStyle(
                   color: Color(0xff428A7D),
-                  fontSize: 40.0,
+                  fontSize: 40.0 * (350 / (MediaQuery.of(context).size.width)),
                   fontWeight: FontWeight.bold),
+              maxLines: 1,
             ),
           ),
           Expanded(child: SizedBox()),

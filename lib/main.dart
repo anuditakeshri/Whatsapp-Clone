@@ -2,10 +2,11 @@ import 'package:camera/camera.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:whatsapp_clone/Screens/dashboard_screen.dart';
-import 'package:whatsapp_clone/Screens/loading_screen.dart';
 import 'package:whatsapp_clone/Screens/login_screen.dart';
 import 'package:whatsapp_clone/Screens/naming_screen.dart';
 import 'package:whatsapp_clone/Screens/terms_conditions.dart';
+
+import 'Screens/loading_screen.dart';
 
 List<CameraDescription>? cameras;
 

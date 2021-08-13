@@ -298,3 +298,11 @@ const kTextFieldDecoration = InputDecoration(
     borderRadius: BorderRadius.all(Radius.circular(32.0)),
   ),
 );
+
+String createConversationID(String ID1, String ID2) {
+  List<String> toSort = [ID1, ID2];
+
+  toSort.sort();
+
+  return toSort[0] + '-' + toSort[1];
+}

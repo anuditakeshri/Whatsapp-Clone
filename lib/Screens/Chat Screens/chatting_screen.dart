@@ -1,18 +1,25 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:whatsapp_clone/Screens/Chat Screens/Widgets/message_stream.dart';
 import 'package:whatsapp_clone/utils/constants.dart';
 import 'package:whatsapp_clone/utils/data_model.dart';
 
 class ChattingScreen extends StatefulWidget {
-  ChattingScreen({this.user});
+  ChattingScreen({this.user, this.myUserID});
 
   User? user;
+  String? myUserID;
 
   @override
   _ChattingScreenState createState() => _ChattingScreenState();
 }
 
 class _ChattingScreenState extends State<ChattingScreen> {
+  final _firestore = FirebaseFirestore.instance;
+
+  TextEditingController controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -89,7 +96,10 @@ class _ChattingScreenState extends State<ChattingScreen> {
                       // color: Colors.pink,
                       ),
                 ),
-                // MessgeStream(),
+                MessgeStream(
+                  partnerUser: widget.user,
+                  myUserID: widget.myUserID,
+                ),
                 Container(
                   decoration: kMessageContainerDecoration,
                   child: Padding(
@@ -99,10 +109,7 @@ class _ChattingScreenState extends State<ChattingScreen> {
                       children: <Widget>[
                         Expanded(
                           child: TextField(
-                            // controller: messageTextController,
-                            // onChanged: (value) {
-                            //   messageText = value;
-                            // },
+                            controller: controller,
                             decoration: kMessageTextFieldDecoration,
                           ),
                         ),
@@ -111,16 +118,26 @@ class _ChattingScreenState extends State<ChattingScreen> {
                           child: CircleAvatar(
                             backgroundColor: Colors.teal.shade800,
                             child: IconButton(
-                              onPressed: () {
-                                // messageTextController.clear();
+                              onPressed: () async {
                                 // //message text + loggedIn user
-                                // _fireStore
-                                //     .collection('messages')
-                                //     .doc(DateTime.now().millisecondsSinceEpoch.toString())
-                                //     .set({
-                                //   'text': messageText,
-                                //   'sender': loggedInUser.email,
-                                // });
+                                String conversationID = createConversationID(
+                                    widget.myUserID!, widget.user!.id!);
+                                if (controller.text.isNotEmpty) {
+                                  _firestore
+                                      .collection('messages')
+                                      .doc('ZnyArP5nI8Ywb2zMntpR')
+                                      .collection(conversationID)
+                                      .doc(DateTime.now()
+                                          .millisecondsSinceEpoch
+                                          .toString())
+                                      .set(
+                                    {
+                                      'text': controller.text,
+                                      'senderID': widget.myUserID,
+                                    },
+                                  );
+                                }
+                                controller.clear();
                               },
                               icon: Icon(
                                 Icons.send,
